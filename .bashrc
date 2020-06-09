@@ -95,14 +95,12 @@ fi
 
 for d in $BASH_COMPLETION; do
 	if [ -d "$d" ]; then
-		for file in "$d/*" ; do
-	# shellcheck source=/dev/null
+		for file in "$(find $d -type f)" ; do
 			source "$file"
 		done
 	fi
 done
 
 if [[ -f "${HOME}/.bash_profile" ]]; then
-	# shellcheck source=/dev/null
 	source "${HOME}/.bash_profile"
 fi
