@@ -9,7 +9,7 @@ case $- in
 	*) return;;
 esac
 
-BASH_COMPLETION=("/etc/bash_completion.d/" "/usr/local/etc/bash_completion.d/")
+BASH_COMPLETION=("/etc/bash_completion.d" "/usr/local/etc/bash_completion.d")
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -94,12 +94,12 @@ if ! shopt -oq posix; then
 fi
 
 for d in $BASH_COMPLETION; do
-if [ -d "$d" ]; then
-for file in "$d/*" ; do
+	if [ -d "$d" ]; then
+		for file in "$d/*" ; do
 	# shellcheck source=/dev/null
-	source "$file"
-done
-fi
+			source "$file"
+		done
+	fi
 done
 
 if [[ -f "${HOME}/.bash_profile" ]]; then
