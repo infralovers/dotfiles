@@ -186,10 +186,6 @@
 [http]
 	cookiefile = ~/.gitcookies
 
-[gpg]
-	program = gpg
-
-
 [credential]
 	helper = store --file ~/.git-credentials
 
