@@ -179,10 +179,6 @@
 
 	insteadOf = "gist:"
 
-
-[commit]
-	gpgsign = true
-
 [http]
 	cookiefile = ~/.gitcookies
 
