@@ -179,16 +179,8 @@
 
 	insteadOf = "gist:"
 
-
-[commit]
-	gpgsign = true
-
 [http]
 	cookiefile = ~/.gitcookies
-
-[gpg]
-	program = gpg
-
 
 [credential]
 	helper = store --file ~/.git-credentials
