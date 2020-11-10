@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.1
+2020-11-10
+
+### Fixes
+
+- do not use gitlab on linking (595d3f7fba2f023c493c98eb3dd6fd061455cacd)
+
 ## 0.1.0
 2020-11-05
 
