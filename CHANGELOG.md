@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.2
+2020-11-24
+
+### Fixes
+
+- open flags changed on code-server (915a0f2d4d66ef4cccedf282693a622ee92fe71a)
+
 ## 0.1.1
 2020-11-10
 
