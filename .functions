@@ -1,8 +1,8 @@
 #!/bin/bash
 
 open() {
-    if [ -f "$1" ] && [ code-server >/dev/null 2>&1 ]; then
-        /usr/bin/code-server --reuse-window $1
+    if ( [ -d "$1" ] || [ -f "$1" ] ) && [ code-server >/dev/null 2>&1 ]; then
+        /usr/bin/code-server --reuse-window "$1"
         return
     fi
     /usr/bin/open $@
