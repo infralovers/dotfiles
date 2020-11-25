@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.3
+2020-11-25
+
+### Fixes
+
+- open function now also handles directories... (00293a41b915a98dae5c6865f53f0acae4c3e765)
+
 ## 0.1.2
 2020-11-24
 
