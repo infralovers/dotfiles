@@ -2,6 +2,13 @@
 
 <!--- next entry here -->
 
+## 0.1.4
+2021-09-22
+
+### Fixes
+
+- make env as CI env (dbd805bf76abbbd24bf3ec97c21ef8f5d4f7732c)
+
 ## 0.1.3
 2020-11-25
 
