@@ -1,1 +1,2 @@
-PATH="~/.local/bin:~/bin:$PATH"
+export PATH="~/.local/bin:~/bin:$PATH"
+export CI="true"

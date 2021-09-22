@@ -12,7 +12,7 @@ changelog:
   stage: changelog
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
-  image: registry.gitlab.com/mbuchleitner/go-semrel-gitlab:v0.21.1
+  image: registry.gitlab.com/infralovers/go-semrel-gitlab:v0.21.1
   script:
     - git fetch --tags
     - NEXT_VERSION=$(release next-version --bump-patch)
