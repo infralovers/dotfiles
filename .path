@@ -1,2 +1,5 @@
-export PATH="~/.local/bin:~/bin:$PATH"
 export CI="true"
+export GOPATH="$HOME/.go"
+export PATH="$GOPATH/bin:$HOME/bin:$HOME/.local/bin:$PATH"
+
+alias tfswitch="tfswitch -b $HOME/bin/terraform"
