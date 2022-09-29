@@ -13,8 +13,11 @@ for file in ~/.{bash_prompt,aliases,functions,path}; do
 	fi
 done
 unset file
-for file in $(find ${HOME} -maxdepth 1 -name ".extra.*"); do
+
+# shellcheck disable=SC2044
+for file in $(find "${HOME}" -maxdepth 1 -name ".extra.*"); do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
+		#shellcheck disable=SC1090
 		source "$file"
 	fi
 done
