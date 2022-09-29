@@ -1,3 +1,26 @@
+## 1.0.0 (2022-09-29)
+
+#### Feature
+
+* zsh config and bootstrap for codespaces (64f737a9)
+* initial changelog automation (4322f7c6)
+
+#### Bug Fixes
+
+* make env as CI env (dbd805bf)
+* open function now also handles directories... (00293a41)
+* open flags changed on code-server (915a0f2d)
+* do not use gitlab on linking (595d3f7f)
+
+#### Chores
+
+* version bump for v0.1.4 [skip ci] (a0f14e84)
+* version bump for v0.1.3 [skip ci] (5e07b96e)
+* version bump for v0.1.2 [skip ci] (8dee026a)
+* version bump for v0.1.1 [skip ci] (75106f28)
+* version bump for v0.1.0 [skip ci] (381d9f26)
+
+
 # CHANGELOG
 
 <!--- next entry here -->
