@@ -1,3 +1,14 @@
+## 1.0.1 (2023-02-27)
+
+#### Bug Fixes
+
+* update dotfiles functions, duplicate code (cf6facb6)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (a314fd8d)
+
+
 ## 1.0.0 (2022-09-29)
 
 #### Feature
