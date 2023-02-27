@@ -3,25 +3,6 @@
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,aliases,functions,path}; do
-	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
-		# shellcheck source=/dev/null
-		source "$file"
-	fi
-done
-unset file
-
-# shellcheck disable=SC2044
-for file in $(find "${HOME}" -maxdepth 1 -name ".extra.*"); do
-	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
-		#shellcheck disable=SC1090
-		source "$file"
-	fi
-done
-unset file
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 

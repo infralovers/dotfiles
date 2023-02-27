@@ -1,5 +1,3 @@
-#!/bin/bash
-
 open() {
     if ( [ -d "$1" ] || [ -f "$1" ] ) && [ code-server >/dev/null 2>&1 ]; then
         /usr/bin/code-server --reuse-window "$1"
@@ -10,4 +8,24 @@ open() {
 
 beautify_ansible() {
     export ANSIBLE_STDOUT_CALLBACK=debug
+}
+
+terraform_token(){
+
+  if [ -f "$HOME/.terraformrc" ]; then
+    awk -F'=' '{if($1~"token"){print $2}}' ~/.terraformrc | sed 's/"//g' | sed 's/^[ \t]*//'
+  fi
+  if [ -f "$HOME/.terraform.d/credentials.tfrc.json" ]; then
+    cat "$HOME/.terraform.d/credentials.tfrc.json" | jq -r '.credentials."app.terraform.io".token'
+  fi
+}
+
+env_ini() {
+  filename=$1
+  section=$2
+  rawdata=$(python3 -c "from sys import argv;import configparser;c = configparser.ConfigParser();c.read(argv[1]); print([f'{x.upper()}={c[argv[2]][x]}' for x in c[argv[2]]])" $filename $section)
+  all_properties=($(echo "$rawdata" | yq '.[]'))
+  for property in "${all_properties[@]}"; do
+     echo $property | sed s'/"//g' | awk -F'=' '{print "export "$1"="$2}'
+  done
 }

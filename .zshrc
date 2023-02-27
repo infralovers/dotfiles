@@ -24,21 +24,9 @@ if [ -f "${ZSH}/oh-my-zsh.sh" ]; then
     source ${ZSH}/oh-my-zsh.sh
 fi
 
-# load subitems...
-for file in ~/.{,aliases,functions,path,ssh-agent,exports}; do
-	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
-		source "$file"
-	fi
-done
-unset file
-
-# loading custom extra variables from other dotfiles environments
-for file in $(find ${HOME} -maxdepth 1 -name ".extra.*"); do
-	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
-		source "$file"
-	fi
-done
-unset file
+if [[ -f "${HOME}/.bash_profile" ]]; then
+	source "${HOME}/.extras"
+fi
 
 function chpwd_profiles() {
     local profile context
