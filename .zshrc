@@ -24,7 +24,7 @@ if [ -f "${ZSH}/oh-my-zsh.sh" ]; then
     source ${ZSH}/oh-my-zsh.sh
 fi
 
-if [[ -f "${HOME}/.bash_profile" ]]; then
+if [[ -f "${HOME}/.extras" ]]; then
 	source "${HOME}/.extras"
 fi
 
