@@ -1,3 +1,14 @@
+## 1.0.4 (2023-06-22)
+
+#### Bug Fixes
+
+* prompt for bash and zsh (99acd4eb)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (81f7f54f)
+
+
 ## 1.0.3 (2023-06-22)
 
 #### Bug Fixes
