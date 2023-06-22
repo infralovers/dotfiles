@@ -1,3 +1,14 @@
+## 1.0.3 (2023-06-22)
+
+#### Bug Fixes
+
+* check on file that gets sourced (a5acabbe)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (0160eb7f)
+
+
 ## 1.0.2 (2023-06-22)
 
 #### Bug Fixes
