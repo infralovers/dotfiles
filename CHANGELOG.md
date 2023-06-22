@@ -1,3 +1,14 @@
+## 1.0.2 (2023-06-22)
+
+#### Bug Fixes
+
+* create zsh compatible configuration (6bdb1e77)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (9ca621b7)
+
+
 ## 1.0.1 (2023-02-27)
 
 #### Bug Fixes
