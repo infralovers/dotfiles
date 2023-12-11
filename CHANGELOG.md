@@ -1,3 +1,14 @@
+## 1.0.5 (2023-12-11)
+
+#### Bug Fixes
+
+* adapt replace_var script to dotfiles (ad87e986)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (79af7137)
+
+
 ## 1.0.4 (2023-06-22)
 
 #### Bug Fixes
