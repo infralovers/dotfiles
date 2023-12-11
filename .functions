@@ -29,3 +29,30 @@ env_ini() {
      echo $property | sed s'/"//g' | awk -F'=' '{print "export "$1"="$2}'
   done
 }
+
+
+replace_variables() {
+
+  SCRIPT_DIR=${1:-${PWD}}
+
+  if [ ! -d "$SCRIPT_DIR" ]; then
+    echo "$SCRIPT_DIR is not a directory"
+    return
+  fi
+
+  # Replace <ENV-USER-ID>
+  find "${SCRIPT_DIR}" -type f -exec sed -i -e "s/<ENV-USER-ID>/$USER_ID/g" {} \;
+
+  # Replace <ENV-ANIMAL>
+  find "${SCRIPT_DIR}" -type f -exec sed -i -e "s/<ENV-ANIMAL>/$ANIMAL/g" {} \;
+
+  # Replace <ENV-IP>
+  find "${SCRIPT_DIR}" -type f -exec sed -i -e "s/<ENV-IP>/$HOST_IP/g" {} \;
+
+  # Replace <ENV-NAME>
+  find "${SCRIPT_DIR}" -type f -exec sed -i -e "s/<ENV-NAME>/$ENVIRONMENT/g" {} \;
+
+  # Replace <ENV-DOMAIN>
+  find "${SCRIPT_DIR}" -type f -exec sed -i -e "s/<ENV-DOMAIN>/$DOMAIN/g" {} \;
+
+}
