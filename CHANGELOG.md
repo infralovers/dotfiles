@@ -1,3 +1,14 @@
+## 1.0.6 (2024-04-18)
+
+#### Bug Fixes
+
+* Changelog Switch (d0d826e5)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (23a68eea)
+
+
 ## 1.0.5 (2023-12-11)
 
 #### Bug Fixes
