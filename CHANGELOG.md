@@ -1,3 +1,14 @@
+## 1.0.7 (2025-01-24)
+
+#### Bug Fixes
+
+* rely on omz for styling (e1784a5a)
+
+#### Chores
+
+* **ci:** commit changes from go-semantic-release (8c17d6e3)
+
+
 ## 1.0.6 (2024-04-18)
 
 #### Bug Fixes
