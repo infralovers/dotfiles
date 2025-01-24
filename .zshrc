@@ -1,6 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell"
+ZSH_THEME="awesomepanda"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_UPDATE_PROMPT="true"
 
@@ -8,7 +8,6 @@ plugins=(git
         ansible
         docker
         golang
-        iterm2
         kitchen
         knife
         bundler
@@ -16,7 +15,6 @@ plugins=(git
         kubectl
         macos
         terraform
-        tmux
         ubuntu
         )
 
