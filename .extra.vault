@@ -3,14 +3,14 @@ export VAULT_ADDR="${VAULT_ADDR:-https://vault.infralovers.cloud:8200}"
 vault_aws_auth() {
 
   aws_env="prod"
-  if [ "$DOMAIN" == "co-pla.training" ]; then
+  if [[ "$DOMAIN" == "co-pla.training" ]]; then
     aws_env="dev"
   fi
   ec2_zone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
   ec2_region=$(echo "${ec2_zone}" | sed 's/[a-z]$//')
 
   vault_auth_role="${ec2_region}-training"
-  signature=$(curl http://169.254.169.254/latest/dynamic/instance-identity/signature | tr -d '\n')
+  signature=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/signature | tr -d '\n')
   pkcs7=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/pkcs7 | tr -d '\n')
   vault_nonce=""
   if [ -f ~/.vault-auth ]; then
@@ -18,7 +18,7 @@ vault_aws_auth() {
   fi
 
   data="{\"role\":\"${vault_auth_role}\",\"pkcs7\":\"${pkcs7}\",\"signature\": \"${signature}\", \"nonce\":\"${vault_nonce}\"}"
-  curl -X POST "${VAULT_ADDR}/v1/auth/aws-${aws_env}/login" -d ${data} > ~/.vault-auth
+  curl -s --fail -X POST "${VAULT_ADDR}/v1/auth/aws-${aws_env}/login" -d ${data} > ~/.vault-auth
 
   export VAULT_TOKEN=$(cat ~/.vault-auth | jq -r '.auth.client_token')
 }
