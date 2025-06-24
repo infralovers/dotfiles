@@ -1,0 +1,97 @@
+export VAULT_ADDR="${VAULT_ADDR:-https://vault.infralovers.cloud:8200}"
+
+vault_aws_auth() {
+
+  ec2_zone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+  ec2_region=$(echo "${ec2_zone}" | sed 's/[a-z]$//')
+
+  vault_auth_role="${ec2_region}-training"
+  signature=$(curl http://169.254.169.254/latest/dynamic/instance-identity/signature | tr -d '\n')
+  pkcs7=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/pkcs7 | tr -d '\n')
+  vault_nonce=""
+  if [ -f ~/.vault-auth ]; then
+    vault_nonce=$(jq -r '.auth.metadata.nonce' ~/.vault-auth)
+  fi
+
+  data="{\"role\":\"${vault_auth_role}\",\"pkcs7\":\"${pkcs7}\",\"signature\": \"${signature}\", \"nonce\":\"${vault_nonce}\"}"
+  curl -X POST "${VAULT_ADDR}/v1/auth/aws-dev/login" -d ${data} > ~/.vault-auth
+
+  export VAULT_TOKEN=$(cat ~/.vault-auth | jq -r '.auth.client_token')
+}
+
+
+vault_ssh () {
+
+  if [[ -z "${1}" ]]; then
+    echo "[INFO] Usage: vault_ssh user@host [-p 2222]"
+    return
+  fi
+
+  SSH_USER=$(ssh -G "${SSH_HOST}" | awk '$1 == "user" p{ print $2 }')
+  if [[ "${1}" =~ ^-+ ]]; then
+    echo "[ERR] Additional SSH flags must be passed after the hostname. e.g. 'vault_ssh user@host -p 2222'"
+    return
+  fi
+  if [[ "${1}" =~ ^[a-zA-Z0-9]+@[a-zA-Z0-9\.]+ ]]; then
+    SSH_USER=$(echo $1 | cut -d'@' -f1)
+    SSH_HOST=$(echo $1 | cut -d'@' -f2)
+  else
+    SSH_HOST=${1}
+  fi
+
+  VAULT_PRIVATE_SSH_KEY=${VAULT_PRIVATE_SSH_KEY:-$HOME/.ssh/id_rsa}
+  VAULT_SIGNED_KEY="$HOME/.ssh/vault_signed_key.pub"
+
+  if [ ! -f "${VAULT_PRIVATE_SSH_KEY}" ]; then
+    ssh-keygen -t rsa -b 4096 -f ${VAULT_PRIVATE_SSH_KEY} -N "" 
+  fi
+
+  # sign the public key
+  vault_sign_key $SSH_USER
+
+  # shift arguments one to the left to remove target address
+  shift 1
+  # construct an SSH command with the credentials, and append any extra args
+  SSH_AUTH_SOCK= ssh -A -i ${VAULT_SIGNED_KEY} -i ${VAULT_PRIVATE_SSH_KEY} ${SSH_USER}@${SSH_HOST} $@
+}
+
+vault_sign_key () {
+  VAULT_MOUNT=${VAULT_MOUNT:-ssh}
+  VAULT_ROLE=${VAULT_ROLE:-signed}
+
+  if [ -n "${VAULT_NAMESPACE}" ]; then
+    VAULT_NAMESPACE_PREFIX="/${VAULT_NAMESPACE}"
+  fi
+
+  VAULT_PUBLIC_SSH_KEY=${VAULT_PUBLIC_SSH_KEY:-"${HOME}/.ssh/id_rsa.pub"}
+  VAULT_SIGNED_KEY=${VAULT_SIGNED_KEY:-"${HOME}/.ssh/vault_signed_key.pub"}
+  SSH_USER=${SSH_USER:-coder}
+  if [ -n "$1" ]; then
+    SSH_USER="$1"
+  fi
+
+  if [[ ! -n "${VAULT_TOKEN}" ]]; then
+    echo "[ERR] No vault access token found at ${VAULT_TOKEN}"
+    return
+  fi
+
+  echo "{ \"public_key\": \"$(cat ${VAULT_PUBLIC_SSH_KEY})\", \"valid_principals\": \"${SSH_USER}\" }" > /tmp/vault_sign_key.json
+
+  set +ex
+  SIGN_REQUEST=$(curl -s --fail -X PUT \
+                      -H "X-Vault-Request: true" \
+                      -H "X-Vault-Token: ${VAULT_TOKEN}" -d @/tmp/vault_sign_key.json \
+                    ${VAULT_ADDR}/v1${VAULT_NAMESPACE_PREFIX}/${VAULT_MOUNT}/sign/${VAULT_ROLE} | jq -r '.data.signed_key')
+  SIGN_RESULT=$?
+  if [ "$SIGN_RESULT" != "0" ]; then
+    echo "[ERR] Failed to sign public key."
+    return
+  fi
+  if [[ -z "${SIGN_REQUEST}" ]]; then
+    echo "[ERR] No signed key returned from Vault."
+    return
+  fi
+  echo "${SIGN_REQUEST}" > ${VAULT_SIGNED_KEY}
+  chmod 0600 $VAULT_SIGNED_KEY
+
+}

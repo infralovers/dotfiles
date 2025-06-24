@@ -1,1 +1,7 @@
 
+# handle virtualenv on python automatically ...
+if [[ -z "$VIRTUAL_ENV"  && -d "venv" && -f "venv/bin/activate" ]]; then
+  source "venv/bin/activate"
+elif [[ -z "$VIRTUAL_ENV"  && -d ".venv" && -f ".venv/bin/activate" ]]; then
+  source ".venv/bin/activate"
+fi
