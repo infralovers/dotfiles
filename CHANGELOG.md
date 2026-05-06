@@ -1,3 +1,13 @@
+## 1.0.9 (2026-05-06)
+
+#### Bug Fixes
+
+* donot link precommit config (4d3fd852)
+* silent culrs (1d8425ed)
+* env vars (5d70e549)
+* adding vault ssh automation (7a59961d)
+
+
 ## 1.0.8 (2025-01-29)
 
 #### Bug Fixes
